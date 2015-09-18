@@ -67,7 +67,7 @@ totalAct %>%
 ```
 ## What is the average daily activity pattern?  
 1. Make a time series plot of the 5-minute interval and the average number of steps taken, averaged across all days.  
-+ First group per 5-minute interval over all days, then calculate the average of the number of steps per time interval over the grouped data. Ignore the NA's when calculating the average to get the pattern.  
+First group per 5-minute interval over all days, then calculate the average of the number of steps per time interval over the grouped data. Ignore the NA's when calculating the average to get the pattern.  
 
 
 ```r
@@ -75,7 +75,7 @@ dayAct = act %>%
         group_by(interval) %>%
         summarise(avgsteps = mean(steps, na.rm = T)) 
 ```
-+ Then, create the time series plot with `type = "l"` of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis).
+Then, create the time series plot with `type = "l"` of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis).
 
 ```r
 with(dayAct, plot(interval,avgsteps, type = "l", main = "Daily activity pattern"))
@@ -85,7 +85,7 @@ with(dayAct, plot(interval,avgsteps, type = "l", main = "Daily activity pattern"
   
 2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
-+ Find the interval with the maximum steps across all days. We find the interval in the middle of the morning rush 08:35.  
+Find the interval with the maximum steps across all days. We find the interval in the middle of the morning rush 08:35.  
 
 ```r
 dayAct %>% top_n(1, avgsteps) %>% print        
@@ -104,7 +104,7 @@ dayAct %>% top_n(1, avgsteps) %>% print
   
 1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs).  
 
-+ Summary returns the number of NA's, alternatively calculation can also be done with summarise.
+Summary returns the number of NA's, alternatively calculation can also be done with summarise.
 
 ```r
 summary(act)
@@ -136,21 +136,21 @@ actNa = act %>%
 ```
   
 2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated.  
-+ Strategy chosen is to replace all missing values by the mean for the same time interval averaged over all days. For the code see below.  
+Strategy chosen is to replace all missing values by the mean for the same time interval averaged over all days. For the code to implement this strategy see below.  
 
 3. Create a new dataset that is equal to the original dataset but with the missing data filled in.  
-+ Join the avgsteps from the daily activity table to the orginal data. Store this in the new dataset `act2`.
+Join the avgsteps from the daily activity table to the orginal data. Store this in the new dataset `act2`.
 
 ```r
 act2 <- left_join(act,dayAct,by="interval")
 ```
-+ This creates a new variable in ```act2``` named ```avgstep```. Now replace the value of ```steps``` with ```avgsteps``` for all observations where steps is NA else keep ```steps```. Then drop the ```avgsteps``` variable.
+This creates a new variable in ```act2``` named ```avgstep```. Now replace the value of ```steps``` with ```avgsteps``` for all observations where steps is NA else keep ```steps```. Then drop the ```avgsteps``` variable.
 
 ```r
 act2$steps<-ifelse(is.na(act2$steps),act2$avgsteps, act2$steps)
 act2 <- select(act2, -avgsteps)
 ```
-+ All NA's are now replaced by the average steps for that interval. `act2` does not contain any NA's anymore as opposed to the orginal `act`.
+All NA's are now replaced by the average steps for that interval. `act2` does not contain any NA's anymore as opposed to the orginal `act`.
 
 ```r
 summary(act2)
@@ -183,7 +183,7 @@ summary(act)
 ```
   
 4. Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day.   
-+ Make the histogram:
+Make the histogram:
 
 ```r
 totalAct2 = act2 %>% 
@@ -194,7 +194,7 @@ with(totalAct2, hist(totspd, xlab ="Total per Day",col= 3, main = "Total number 
 
 ![plot of chunk TotNbrStepspDayHistoNAReplaced](figure/TotNbrStepspDayHistoNAReplaced-1.png) 
   
-+ Calculate and report the mean and median total number of steps taken per day with the replaced NAs. 
+Calculate and report the mean and median total number of steps taken per day with the replaced NAs. 
 
 ```r
 totalAct2 %>% 
@@ -208,8 +208,8 @@ totalAct2 %>%
 ##               10766.19               10766.19
 ```
 
-+ Do these values differ from the estimates from the first part of the assignment? 
-+ In the first part we found:
+Do these values differ from the estimates from the first part of the assignment?  
+In the first part we found:
 
 ```r
 totalAct %>% 
@@ -222,10 +222,10 @@ totalAct %>%
 ##   meanSteps.pDay medianSteps.pDay 
 ##         10766.19            10765
 ```
-+ So, the replacement of the NA's by the average per interval across all days has no significant impact on the mean/median of the total steps per day. 
+So, the replacement of the NA's by the average per interval across all days has no significant impact on the mean/median of the total steps per day. 
 
-+ What is the impact of imputing missing data on the estimates of the total daily number of steps?
-+ No significant impact on the mean of the total per day but the grand total of steps over all days was significantly increased by replacing the NAs.
+What is the impact of imputing missing data on the estimates of the total daily number of steps?  
+No significant impact on the mean of the total per day but the grand total of steps over all days was significantly increased by replacing the NAs.
 
 ```r
 GrandTotal = sum(act$steps, na.rm =T)
@@ -246,7 +246,7 @@ print(PCTAdded)
 ```
 ## [1] 15.09434
 ```
-+ How is this possible? The days with NA values are completely NA over all intervals i.e. over all ```24 * (60/5) = 288 ``` intervals of the day. Indeed either all intervals of a given day are NA or none:   
+How is this possible? The days with NA values are completely NA over all intervals i.e. over all ```24 * (60/5) = 288 ``` intervals of the day. Indeed either all intervals of a given day are NA or none:   
 
 ```r
 actNa = act %>%
@@ -259,7 +259,7 @@ unique(actNa$naPerDay)
 ## [1] 288   0
 ```
   
-+ Given this data, the chosen strategy reduces the standard deviation but does not affect the mean.
+Given this data, the chosen strategy reduces the standard deviation but does not affect the mean.
 
 ```r
 sd(totalAct$totspd, na.rm = T)
@@ -292,7 +292,7 @@ mean(totalAct2$totspd)
 ```
 ## [1] 10766.19
 ```
-+ Comparing the two histograms confirms this:
+Comparing the two histograms confirms this:
 
 ```r
 par(mfrow = c(1, 2))
@@ -305,22 +305,22 @@ with(totalAct2, hist(totspd, xlab ="Total per Day",col= 3, main = "Total each da
 ## Are there differences in activity patterns between weekdays and weekends?
 
 1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.  
-+ Creating the new variable by calculating the name of the corresponding date and then assigning the requested factor level.  
+Creating the new variable by calculating the name of the corresponding date and then assigning the requested factor level.  
 
 ```r
 act <- mutate(act, weekday = ifelse((weekdays(as.Date(date)) %in% 
               c("Sunday","Saturday")),"weekend", "weekday"))
 act$weekday <- as.factor(act$weekday)
 ```
-+ Group the data per interval and type of day (weekend or weekday) and take the mean per interval across all days ignoring the NAs.
+Group the data per interval and type of day (weekend or weekday) and take the mean per interval across all days ignoring the NAs.
 
 ```r
 dayActWD = act %>% 
         group_by(interval,weekday) %>%
         summarise(avgsteps = mean(steps, na.rm = T))  
 ```
-2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis). 
-+ Preparing the plot:
+2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).  
+Preparing the plot:
 
 ```r
 library(lattice)
@@ -329,5 +329,5 @@ xyplot(avgsteps ~ interval | weekday, data = dayActWD, type = "l", layout = c(1,
 
 ![plot of chunk WeekendWeekPanelPlot](figure/WeekendWeekPanelPlot-1.png) 
   
-+ Conclusion:  
+Conclusion:  
 The weekend pattern differs from the week pattern. Subjects seem to make steps evenly throughout the day in the weekend whereas in the week there is a higher amount of steps in the morning, probably when going to work or school.
