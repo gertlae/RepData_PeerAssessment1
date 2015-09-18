@@ -1,0 +1,17 @@
+{
+    "contents" : "library(knitr)\n\nsetwd(\"C:/EDS/DSS/RepData/RepData_PeerAssessment1\")\n\nknit2html(\"PA1_template.Rmd\")\n",
+    "created" : 1442615328581.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "3834381007",
+    "id" : "CE3E1406",
+    "lastKnownWriteTime" : 1442615637,
+    "path" : "C:/EDS/DSS/RepData/RepData_PeerAssessment1/CreateFiles.R",
+    "project_path" : "CreateFiles.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : false,
+    "type" : "r_source"
+}
