@@ -35,7 +35,7 @@ act
 Each observation contains the number of steps for a given time interval on a given day. Interval with value 25 means 00:25 and so on.
 
 ## What is mean total number of steps taken per day?  
-1. Calculate the total number of steps per day across all time intervals.
+####1. Calculate the total number of steps per day across all time intervals.
 
 ```r
 totalAct = act %>% 
@@ -43,7 +43,7 @@ totalAct = act %>%
         summarise(totspd = sum(steps))
 ```
   
-2. Make the histogram of the total number of steps per day.
+####2. Make the histogram of the total number of steps per day.
 
 ```r
 with(totalAct, hist(totspd, xlab ="Total per Day",col= 2, main = "Total number of steps each day"))
@@ -51,7 +51,7 @@ with(totalAct, hist(totspd, xlab ="Total per Day",col= 2, main = "Total number o
 
 ![plot of chunk TotNbrStepspDayHisto](figure/TotNbrStepspDayHisto-1.png) 
   
-3. Calculate and report the mean and median of the total number of steps taken per day    
+####3. Calculate and report the mean and median of the total number of steps taken per day    
 Ignoring NA's, the mean total number of steps taken per day is the value of `meanSteps.pdDay`. The median is the value of `medianSteps.pDay`.
 
 ```r
@@ -66,7 +66,7 @@ totalAct %>%
 ##         10766.19            10765
 ```
 ## What is the average daily activity pattern?  
-1. Make a time series plot of the 5-minute interval and the average number of steps taken, averaged across all days.  
+####1. Make a time series plot of the 5-minute interval and the average number of steps taken, averaged across all days.  
 First group per 5-minute interval over all days, then calculate the average of the number of steps per time interval over the grouped data. Ignore the NA's when calculating the average to get the pattern.  
 
 
@@ -83,7 +83,7 @@ with(dayAct, plot(interval,avgsteps, type = "l", main = "Daily activity pattern"
 
 ![plot of chunk DailyActivityPattern](figure/DailyActivityPattern-1.png) 
   
-2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+####2. Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
 Find the interval with the maximum steps across all days. We find the interval in the middle of the morning rush 08:35.  
 
@@ -102,7 +102,7 @@ dayAct %>% top_n(1, avgsteps) %>% print
   
 ## Imputing missing values
   
-1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs).  
+####1. Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs).  
 
 Summary returns the number of NA's, alternatively calculation can also be done with summarise.
 
@@ -135,10 +135,10 @@ actNa = act %>%
 ## 1    2304
 ```
   
-2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated.  
+####2. Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated.  
 Strategy chosen is to replace all missing values by the mean for the same time interval averaged over all days. For the code to implement this strategy see below.  
 
-3. Create a new dataset that is equal to the original dataset but with the missing data filled in.  
+####3. Create a new dataset that is equal to the original dataset but with the missing data filled in.  
 Join the avgsteps from the daily activity table to the orginal data. Store this in the new dataset `act2`.
 
 ```r
@@ -182,7 +182,7 @@ summary(act)
 ##  NA's   :2304     (Other)   :15840
 ```
   
-4. Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day.   
+####4. Make a histogram of the total number of steps taken each day and calculate and report the mean and median total number of steps taken per day.   
 Make the histogram:
 
 ```r
@@ -304,7 +304,7 @@ with(totalAct2, hist(totspd, xlab ="Total per Day",col= 3, main = "Total each da
    
 ## Are there differences in activity patterns between weekdays and weekends?
 
-1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.  
+####1. Create a new factor variable in the dataset with two levels – “weekday” and “weekend” indicating whether a given date is a weekday or weekend day.  
 Creating the new variable by calculating the name of the corresponding date and then assigning the requested factor level.  
 
 ```r
@@ -319,7 +319,7 @@ dayActWD = act %>%
         group_by(interval,weekday) %>%
         summarise(avgsteps = mean(steps, na.rm = T))  
 ```
-2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).  
+####2. Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).  
 Preparing the plot:
 
 ```r
